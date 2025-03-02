@@ -28,7 +28,7 @@ function RecomdedCourses({ data }) {
                     alt={course?.title}
                     className="w-full h-48 object-cover"
                   />
-                  <div className="p-4 border-2 bg-slate-800">
+                  <div className="p-4 border-2 bg-gray-800">
                   <h3 className="text-xl font-semibold text-foreground">{course.name|| course.title || 'Unknown Course'}</h3>
                   <p className="text-sm text-gray-200">{course.reason}</p>
                     <div className="flex justify-between items-center mt-4">

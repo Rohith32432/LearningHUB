@@ -2,6 +2,7 @@ const { enrollC } = require("../models/Courses");
 const { user } = require("../models/User");
 const jwt =require('jsonwebtoken');
 const { generatepdf } = require("../useful/pdfGen");
+const { createmail } = require("../useful/checkeligiblty");
 
 async function login(req, res) {
   const {email,password}=req.body
@@ -25,9 +26,11 @@ async function signup(req, res) {
 
 async function updateUser(req, res) {
    const {name,password,age,courses}=req.body
+   
    const {userid}=req.params
    const x=await user.findById(userid)
-   if(x) {
+   const forgotid=await user.findById(req?.forgotid)
+   if(x ) {
        const upuser=await user.updateOne({
         name:name | x.name,
         password:password | x.password,
@@ -36,7 +39,13 @@ async function updateUser(req, res) {
        })
        res.json(upuser)
    }
+   if(forgotid){
+    forgotid.password=password
+    await forgotid.save()
+    res.json('password changed')
+   }
 }
+
 
 async function favcourses(req, res) {
     const {_id} =req?.user 
@@ -171,6 +180,45 @@ async function markComplte(req, res) {
     }
 }
 
+async function forgot(req, res) {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: "Email is required." });
+        }
+
+        try {
+            const foundUser = await user.findOne({ email });
+            if (!foundUser) {
+                return res.status(404).json({ message: "User not found." });
+            }
+            const resetToken = generateToken({ userId: foundUser._id });
+            createmail({foundUser,resetToken})
+            return res.status(200).json({ message: "Password reset email sent.", resetToken });
+
+        } catch (error) {
+            return res.status(500).json({ message: "An error occurred.", error });
+        }
+
+}
+
+function forgotverify(req,res,next){
+    
+    const { token } = req.params;
+    
+    try {
+        const decoded = jwt.verify(token, 'shh');
+        req.forgotid=decoded?.userId
+        
+        return next()
+    } catch (error) {
+        return res.status(400).json({ message: "Invalid or expired token." });
+    }
+}
+
+function generateToken(data) {
+    return jwt.sign(data, 'shh', { expiresIn: '1h' });
+}
 
 
-module.exports = { login,submitquiz, signup, updateUser, favcourses, markComplte,profile,takequiz };
+
+module.exports = {forgot, forgotverify,login,submitquiz, signup, updateUser, favcourses, markComplte,profile,takequiz };

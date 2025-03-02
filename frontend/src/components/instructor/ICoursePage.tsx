@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import Modal from '@/components/Modal'
 import { useAuth } from '@/Context/userContext'
 import useToast from '@/hooks/useToast'
+import DataTable from './DataTable'
 
 function ICoursePage() {
   const { id } = useParams()
@@ -22,7 +23,7 @@ function ICoursePage() {
   useEffect(() => {
     if (data) {
       setcourse(data?.data)
-      console.log(data)
+      // console.log(data)
     }
   }, [data])
 
@@ -36,28 +37,26 @@ function ICoursePage() {
               <h1 className="text-3xl font-semibold capitalize mb-4">{course?.title || 'Course Title'}</h1>
 
               <p className="text-lg mb-4">
-                {course?.description || 'Course description will be shown here.'}
+                {course?.descrption || 'Course description will be shown here.'}
               </p>
 
               <div className="mt-4">
                 <h2 className="text-xl font-semibold">Instructor</h2>
-                {course?.instrutors?.map((e: any, i: any) => (
-                  <div key={i}>
-                    <div className="flex -space-x-4 rtl:space-x-reverse">
-                      <img
-                        className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
-                        src="/docs/images/people/profile-picture-5.jpg"
-                        alt=""
-                      />
-                    </div>
-                    {e?.name}
-                  </div>
-                ))}
+                {
+                    course?.instrutors?.map((e: any, i: any) => (
+                      <div key={i} onClick={()=>{}}>
+                        <div className="flex -space-x-4 rtl:space-x-reverse">
+                          <img className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src={data?.pic ||'https://avatars.githubusercontent.com/u/124599?v=4'} alt="" />
+                        </div>
+                        {e?.name}
+                      </div>
+                    ))
+                  }
               </div>
               <div className="mt-4 mb-2">
-                <h2 className="text-xl font-semibold">Duration</h2>
-                <p className="text-lg">{course?.updatedAt || 'Course duration will be shown here.'}</p>
-              </div>
+                  <h2 className="text-xl text-gray-400 font-semibold">Duration {course?.estimated} weeks</h2>
+                  <p className="text-lg">{course?.updatedAt || 'Course duration will be shown here.'}</p>
+                </div>
               <div className="flex gap-5"></div>
             </div>
             <div className="w-1/3 m-2">
@@ -75,20 +74,10 @@ function ICoursePage() {
             <Button>Add Quiz</Button>
           </Link>
 
-          {/* Articles Section */}
         </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-            {course?.articles?.map((article: any, index: number) => (
-              <div key={index} className="bg-background w-max h-max p-2 rounded-lg shadow-lg">
-                <h3 className="text-xl inline mx-5 font-semibold">{article?.title || 'Article Title'}</h3>
-                <Link to={`/course/${id}/article/${article._id}`}>
-                  <Button variant="outline" className="mt-4 ">
-                    Read More
-                  </Button>
-                </Link>
-              </div>
-            ))}
-          </div>
+         <div className='bg-background p-4 m-4 rounded-xl'>
+          <DataTable datax={course}/>
+         </div>
         </>
       ) : (
         <SkeletionPage />

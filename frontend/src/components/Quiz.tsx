@@ -113,11 +113,24 @@ if(data){
           <Button onClick={rest}> Reset</Button>
           {
             congrats && <>
-            <h1>congrtions course comple</h1>
-            {JSON.stringify(congrats)}
-            <a href={`http://localhost:3003/certicates/${congrats?.url}.pdf`} target="_blank" download>
-  <Button>Download certificate</Button>
-</a>
+<div className="m-5 text-center">
+  <h1 className="text-4xl font-semibold capitalize  bg-gradient-to-r from-blue-50 via-blue-300  to-blue-600 text-transparent bg-clip-text mb-4">
+    Congratulations on Course Completion!
+  </h1>
+  {/* {JSON.stringify(congrats)} */}
+  <a 
+    href={`http://localhost:3003/certicates/${congrats?.url}.pdf`} 
+    target="_blank" 
+    download 
+    className="inline-block mt-4"
+  >
+    <Button className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors duration-200">
+      Download Certificate
+    </Button>
+  </a>
+</div>
+
+
 <RecomdedCourses data={recdedcourse}/>
 
             </>

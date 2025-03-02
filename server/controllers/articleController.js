@@ -1,6 +1,7 @@
 const { article, mainquizes } = require("../models/Article");
 const { course } = require("../models/Courses");
-const fs =require('fs')
+const fs =require('fs');
+const { instruter } = require("../models/Instructor");
 
 async function createArticle(req, res) {
    const {title,content,courseid,links=''}=req.body
@@ -39,6 +40,7 @@ async function getArticleById(req, res) {
     // Your get article by ID logic here
     const {aid}=req.params
     const artcles=await article.findById(aid)
+//    console.log(artcles);
    
     res.json(artcles)
 }
@@ -48,10 +50,10 @@ async function getArticleById(req, res) {
 async function updateArticle(req, res) {
     try {
         const { id } = req.params;
-        const { title, content, courseid } = req.body;
+        const { title, content } = req.body;
         const { originalname, filename, size } = req?.file || {};
         const { role } = req?.user;
-
+        
         const existingArticle = await article.findById(id);
         if (!existingArticle) {
             return res.status(404).json({ message: 'Article not found' });
@@ -63,7 +65,7 @@ async function updateArticle(req, res) {
 
         existingArticle.title = title || existingArticle.title;
         existingArticle.content = content || existingArticle.content;
-        existingArticle.courseid = courseid || existingArticle.courseid;
+        // existingArticle.courseid = courseid || existingArticle.courseid;
 
         if (role !== 'user' && filename) {
             await fs.rename(`images/artcleimg/${filename}`, `images/artcleimg/${originalname}`, (err) => {
@@ -84,6 +86,18 @@ async function updateArticle(req, res) {
 
 
 async function deleteArticle(req, res) {
+    const {role} =req?.user
+    const {id}=req.params
+    if(role!='user'){
+        try {
+            const ind=await article.deleteOne({_id:id})
+            res.json('article deleted')
+        } catch (error) {
+            console.log(error);
+            
+        }
+
+    }
     
 }
 
@@ -105,6 +119,7 @@ async function getcourseArticles(req, res) {
         res.json(indcourse)
     }
 }
+
 
 
 module.exports = {quiztime, createArticle,getAllArticles, getArticleById, getcourseArticles,updateArticle, deleteArticle };

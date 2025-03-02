@@ -18,6 +18,10 @@ import Search from "@/components/Search"
 import PieChart from "@/components/PieChart"
 import CourseContext from '../Context/CourseContext'
 import StatsPage from "./StatsPage"
+import UpdateArticlePage from "@/components/instructor/UpdateAricle"
+import Profile from "./Profile"
+import Demo from "@/useful/Demo"
+import IDemo from "@/useful/Idemo"
 
 
 function Layout() {
@@ -44,9 +48,11 @@ function Layout() {
                 </Route>
                 <Route element={<Quiz />} path='/course/:cid/quiz/:aid' />
                 <Route element={<Search />} path='/search' />
-
+                <Route element={<Profile />} path='/setting' />
+                <Route element={<Demo/>} path="/demo"/>
               </>
             </Route>
+            <Route element={<h1>not found</h1>} path="/*" />
 
           </Routes>
           :
@@ -60,6 +66,10 @@ function Layout() {
                 <Route element={<YourCourses />} path="/mycourses" />
                 <Route element={<IArticlePage />} path='/course/:cid/article/:x' />
                 <Route element={<IQuizPage />} path='/course/:cid/quiz/:aid' />
+                <Route element={<UpdateArticlePage />} path='/article/:aid' />
+                <Route element={<Search />} path='/search' />
+                <Route element={<Profile />} path='/setting' />
+                <Route element={<IDemo/>} path="/demo"/>
 
               </Route>
 

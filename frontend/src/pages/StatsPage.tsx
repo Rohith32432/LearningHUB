@@ -46,21 +46,21 @@ useEffect(()=>{
   useEffect(() => {
     // Simulate fetching data for charts (e.g., monthly courses enrolled, articles read)
     setCoursesData([
-      { month: 'Jan', value: 1 },
+      { month: 'feb', value: 1 },
       { month: 'Feb', value: 3 },
-      { month: 'Mar', value: 5 },
-      { month: 'Apr', value: 7 },
-      { month: 'May', value: 9 },
-      { month: 'Jun', value: 10 },
+      { month: 'feb', value: 5 },
+      { month: 'feb', value: 7 },
+      { month: 'feb', value: 9 },
+      { month: 'feb', value: 10 },
     ]);
 
     setArticlesData([
-      { month: 'Jan', value: 2 },
+      { month: 'feb', value: 2 },
       { month: 'Feb', value: 4 },
-      { month: 'Mar', value: 6 },
-      { month: 'Apr', value: 8 },
-      { month: 'May', value: 15 },
-      { month: 'Jun', value: 20 },
+      { month: 'feb', value: 6 },
+      { month: 'feb', value: 8 },
+      { month: 'feb', value: 15 },
+      { month: 'feb', value: 20 },
     ]);
   }, []);
 

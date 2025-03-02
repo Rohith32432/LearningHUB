@@ -5,7 +5,16 @@ import { useAuth } from "@/Context/userContext";
 
 const Cards = ({ course }: { course: any }) => {
   const { user } = useAuth();
-
+  function getDateAndTime(dateString) {
+    const date = new Date(dateString);
+    const datePart = date.toISOString().split('T')[0];
+    const timePart = date.toISOString().split('T')[1].slice(0, 8);
+    return {
+      date: datePart,
+      time: timePart
+    };
+  }
+  
   return (
     <Card className="max-w-sm rounded-xl overflow-hidden shadow-lg p-2 ">
       <>
@@ -20,17 +29,23 @@ const Cards = ({ course }: { course: any }) => {
         />
         <div className="px-6 py-4 bg-gray-950">
           <div className="font-bold text-xl mb-2 text-foreground">{course?.title}</div>
-          <p className="text-gray-700 text-base">
+          <p className="text-gray-400 text-base">
             {/* You can replace this static text with dynamic content if required */}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
-          </p>
+           {
+            course?.descrption ||
+' Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.'
+           }
+'          </p>
         </div>
         <div className="px-6 pt-4 pb-2 bg-gray-950">
-          <span className="inline-block bg-slate-800  rounded-full px-3 py-1 text-sm font-semibold text-gray-200 mr-2 mb-2">#photography</span>
+          <span className="inline-block bg-slate-800  rounded-full px-3 py-1 text-sm font-semibold text-gray-200 mr-2 mb-2">#learning</span>
+          <span className="mx-2 text-gray-400 capitalize">{course?.intractions/1000>1?`${course?.intractions/1000}K+ intractions`:`${course?.intractions} intractions`}  </span>
         </div>
         <div className="px-6 pt-4 pb-2 flex justify-between items-center bg-gray-950">
-          <span className="text-sm font-medium text-gray-700">{course?.createdAt}</span>
-          <span className="text-sm text-blue-500">{500}</span>
+          <span className="text-sm font-medium text-gray-300">{
+          getDateAndTime(course?.createdAt)?.date 
+          }</span>
+          <span className="text-sm text-blue-500">  {` ${  getDateAndTime(course?.createdAt)?.time}`          }</span>
         </div>
         <Link to={`/course/${course?._id}`}>
         {

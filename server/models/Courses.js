@@ -9,6 +9,7 @@ const courseschema=new moongose.Schema({
     rating:Number,
     pic: String,
     descrption:String,
+    intractions:{type:Number,default:0},
     quiz:[{ type:moongose.Schema.ObjectId,ref:'quizes',default:[]}]
 },{timestamps:true}) 
 

@@ -13,7 +13,7 @@ function AddArticlePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fmdata=new FormData(e.target)
-   execute(makeRequest({type:'post',url:'articles',data:{title:fmdata.get('title'),content:fmdata.get('content'),courseid:cid,artimg:fmdata.get('artimg')},formdata:true}),true)
+   execute(makeRequest({type:'post',url:'articles',data:{title:fmdata.get('title'),content:fmdata.get('content'),courseid:cid,artimg:fmdata.get('artimg'),links:fmdata.get('links')},formdata:true}),true)
   };
 // useEffect(()=>{
 
@@ -71,7 +71,7 @@ function AddArticlePage() {
           </Label>
           <Input
             id="content"
-           name="content"
+           name="links"
             placeholder="Youtube Links perefeble"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

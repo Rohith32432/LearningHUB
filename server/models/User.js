@@ -12,4 +12,8 @@ const userschema=new moongose.Schema({
 
 const user= moongose.model('user',userschema)
 
-module.exports={user}
+const testschema=new moongose.Schema({
+    name:String,
+})
+const test=moongose.model('test',testschema)
+module.exports={user,test}

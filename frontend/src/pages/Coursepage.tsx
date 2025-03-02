@@ -15,7 +15,8 @@ function CoursePage() {
   const { loading, data, execute } = useAsync()
   const [course, setcourse] = useState<any>({})
   const  {promisetoast}=useToast()
-  
+  const [inst,setinst]=useState({})
+  const [stats,setstaus]=useState(false)
   useEffect(() => {
     execute(makeRequest({ url: `courses/${id}` })) 
   }, [id])
@@ -55,6 +56,11 @@ function CoursePage() {
     }
   };
 
+  function modaldata(e) {
+    setstaus(!stats)
+   e &&setinst(e)
+  }
+
   async function unenroll() {
     try {
       const response = promisetoast(
@@ -93,25 +99,28 @@ function CoursePage() {
               <div className="flex-1  p-2 rounded-lg shadow-lg">
                 <h1 className="text-3xl font-semibold capitalize mb-4">{course?.title || 'Course Title'}</h1>
 
-                <p className="text-lg mb-4">
-                  {data?.description || 'Course description will be shown here.'}
+                <p className="text-lg text-gray-300 mb-4">
+                  {course?.descrption || 'Course description will be shown here.'}
                 </p>
 
                 <div className="mt-4">
                   <h2 className="text-xl font-semibold">Instructor</h2>
+                  <div className='my-2 cursor-pointer'>
+
                   {
                     course?.instrutors?.map((e: any, i: any) => (
-                      <div key={i}>
+                      <div key={i} onClick={()=>{modaldata(e)}}>
                         <div className="flex -space-x-4 rtl:space-x-reverse">
-                          <img className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src="/docs/images/people/profile-picture-5.jpg" alt="" />
+                          <img className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src={data?.pic ||'https://avatars.githubusercontent.com/u/124599?v=4'} alt="" />
                         </div>
                         {e?.name}
                       </div>
                     ))
                   }
+                  </div>
                 </div>
                 <div className="mt-4 mb-2">
-                  <h2 className="text-xl font-semibold">Duration</h2>
+                  <h2 className="text-xl text-gray-400 font-semibold">Duration {course?.estimated} weeks</h2>
                   <p className="text-lg">{course?.updatedAt || 'Course duration will be shown here.'}</p>
                 </div>
                   <div className='flex gap-5'>
@@ -138,7 +147,7 @@ function CoursePage() {
               </div>
 
             </div>
-
+                <Modal data={inst} show={stats} setshow={setstaus}/>
           </div>
           : <>
             <SkeletionPage />

@@ -30,7 +30,7 @@ export default function AppSidebar() {
       },
       {
         title: "singup",
-        url: "/singup",
+        url: "/signup",
         icon: Inbox,
       },
      

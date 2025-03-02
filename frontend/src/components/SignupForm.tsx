@@ -87,12 +87,12 @@ export default function SignupForm({type='users'}) {
               <Label htmlFor="confirmPwd">Confirm Password</Label>
               <Input id="confirmPwd" placeholder="Confirm Password" name="confirmPwd" type="password" required />
 
-              <div className="flex items-center space-x-2">
+              {/* <div className="flex items-center space-x-2">
                 <Checkbox id="terms" required />
                 <label htmlFor="terms" className="text-sm font-medium leading-none">
                   I agree to the terms and conditions
                 </label>
-              </div>
+              </div> */}
             </div>
 
             <Button className="rounded-lg">Signup</Button>

@@ -11,6 +11,7 @@ function UserContext({ children }) {
     const [token,settoken]=useState('')
     const [trigger,settriggerX]=useState(false)
     const usercookie=getCookies('user')
+    const[gcourse,setgcourse]=useState([])
     
     useEffect(()=>{
         async function profile(){
@@ -29,7 +30,7 @@ function UserContext({ children }) {
     },[])
     
     return (
-        <context.Provider value={{ user, setUser,settoken,token ,settriggerX}}>
+        <context.Provider value={{ user, setUser,settoken,token ,settriggerX,gcourse,setgcourse}}>
             {children}
         </context.Provider>
     )

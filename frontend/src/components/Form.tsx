@@ -66,9 +66,11 @@ export default function Form({type='users'}) {
               <Input id="pwd" placeholder="Password" name="pwd" type="password" />
               <div className="flex items-center space-x-2">
                 <Checkbox id="terms" />
+                <Link to={'/forgot'}>
                 <label htmlFor="terms" className="text-sm font-medium underline leading-none">
                   Forgot Password
                 </label>
+                </Link>
               </div>
             </div>
 
@@ -77,7 +79,7 @@ export default function Form({type='users'}) {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Link to={'/signup'}>
+        <Link to={`${type!='users'?'/instsignup':'/signup'}`}>
         <Button variant="outline">Signup</Button>
         </Link>
       </CardFooter>

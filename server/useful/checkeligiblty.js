@@ -1,10 +1,7 @@
-// export function checkeligblity(){
-//     return false
-// }
-
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { course } = require("../models/Courses");
 const doenv=require('dotenv')
+const nodemailer=require('nodemailer')
 
 doenv.config()
 
@@ -131,5 +128,41 @@ function convertToJson(input) {
   }
 }
 
+async function createmail(data) {
+  const {foundUser,resetToken}=data
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465, // Use 587 if secure is false
+    secure: true, // Port 465 requires secure: true
+    auth: {
+      user: process.env.main_mail,
+      pass: process.env.mail_pwd,
+    },
+  });
 
-module.exports={recomed}
+  const resetUrl = `${process.env.furl}/forgot/${encodeURIComponent(resetToken)}`;
+
+
+  try {
+    const info = await transporter.sendMail({
+      from: `Learning-HUB <${process.env.main_mail}>`, // Use env for sender email
+      to: foundUser.email, 
+      subject: `Hi ${foundUser.name}`, 
+      text: `Hello ${foundUser.name},\n\nClick the link to reset your password: ${resetUrl}`,
+      html: `<h2 align="center">Welcome to <b>L-HUB</b></h2>
+             <p>Click the link below to reset your password:</p>
+             <p><a href="${resetUrl}" target="_blank">${resetUrl}</a></p>`,
+    });
+
+    console.log("Email sent: ", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("Error sending email: ", error);
+    throw error;
+  }
+}
+
+
+
+module.exports={recomed,createmail}
