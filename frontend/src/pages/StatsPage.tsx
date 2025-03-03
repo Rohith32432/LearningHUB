@@ -40,8 +40,8 @@ useEffect(()=>{
   });
   const {user}=useAuth()
 
-  const [coursesData, setCoursesData] = useState([]);
-  const [articlesData, setArticlesData] = useState([]);
+  const [coursesData, setCoursesData] = useState<any>([]);
+  const [articlesData, setArticlesData] = useState<any>([]);
 
   useEffect(() => {
     // Simulate fetching data for charts (e.g., monthly courses enrolled, articles read)
